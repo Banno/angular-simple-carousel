@@ -16,6 +16,7 @@ requirejs.config({
 
 	shim: {
 		angular: {
+			deps: ['jquery'],
 			exports: 'angular'
 		},
 		'angular-mocks': {
@@ -26,7 +27,8 @@ requirejs.config({
 	paths: {
 		'angular': 'bower_components/angular/angular',
 		'angular-mocks': 'node_modules/angular-mocks/angular-mocks',
-		'banno/carousel': 'dist/angular-simple-carousel'
+		'banno/carousel': 'dist/angular-simple-carousel',
+		'jquery': 'bower_components/jquery/dist/jquery'
 	},
 
 	// Start the test run once RequireJS is done.
