@@ -3,7 +3,7 @@ define(['testModule'], function(data) {
 
 	var compiler, el, scope;
 
-	var createCarousel = function(numSlides, scope) {
+	var createCarousel = function(numSlides, scope, addNesting) {
 		var i, contents = '<div banno-carousel-slides>';
 		for (i = 1; i <= numSlides; i++) {
 			contents += '<div>slide ' + i + '</div>';
@@ -11,7 +11,11 @@ define(['testModule'], function(data) {
 		contents += '</div>';
 
 		var el = angular.element(
-			'<section banno-carousel>' + (numSlides > 0 ? contents : '') + '</section banno-carousel>'
+			'<section banno-carousel>' +
+				(addNesting ? '<div>' : '') +
+				(numSlides > 0 ? contents : '') +
+				(addNesting ? '</div>' : '') +
+				'</section banno-carousel>'
 		);
 		compiler(el)(scope);
 		scope.$apply();
@@ -26,7 +30,7 @@ define(['testModule'], function(data) {
 		scope = $rootScope.$new();
 	}));
 
-	describe('basic construction', function() {
+	describe('basic construction (no slides)', function() {
 
 		beforeEach(function() {
 			el = createCarousel(0, scope);
@@ -54,10 +58,35 @@ define(['testModule'], function(data) {
 	describe('standard construction', function() {
 
 		var count = 2;
-		var slidesRegexp = /<div banno-carousel-slides=""[^>]*>(<div[^>]*>slide \d+<\/div>)*<\/div>/;
+		var slidesRegexp = /^<div banno-carousel-slides=""[^>]*>(<div[^>]*>slide \d+<\/div>)+<\/div>$/;
 
 		beforeEach(function() {
 			el = createCarousel(count, scope);
+		});
+
+		it('should contain the slides', function() {
+			expect(el[0].innerHTML).toMatch(slidesRegexp);
+		});
+
+		it('should start with a slide index of 0', function() {
+			expect(el.scope().currentSlide).toBe(0);
+		});
+
+		it('should start with the slides', function() {
+			expect(el.scope().numSlides).toBe(count);
+			expect(el.scope().slides[0]).toEqual(jasmine.any(Object));
+			expect(el.scope().slides[1]).toEqual(jasmine.any(Object));
+		});
+
+	});
+
+	describe('slides nested inside other elements', function() {
+
+		var count = 2;
+		var slidesRegexp = /^<div[^>]*><div banno-carousel-slides=""[^>]*>(<div[^>]*>slide \d+<\/div>)+<\/div><\/div>$/;
+
+		beforeEach(function() {
+			el = createCarousel(count, scope, true);
 		});
 
 		it('should contain the slides', function() {
