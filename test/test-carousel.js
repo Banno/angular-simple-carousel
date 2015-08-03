@@ -3,20 +3,21 @@ define(['testModule'], function(data) {
 
 	var compiler, el, scope;
 
-	var createCarousel = function(numSlides, scope, addNesting) {
+	var createCarousel = function(numSlides, scope, addNesting, numSets) {
 		var i, contents = '<div banno-carousel-slides>';
 		for (i = 1; i <= numSlides; i++) {
 			contents += '<div>slide ' + i + '</div>';
 		}
 		contents += '</div>';
 
-		var el = angular.element(
-			'<section banno-carousel>' +
-				(addNesting ? '<div>' : '') +
-				(numSlides > 0 ? contents : '') +
-				(addNesting ? '</div>' : '') +
-				'</section banno-carousel>'
-		);
+		var elHtml = '<section banno-carousel>' + (addNesting ? '<div>' : '');
+		numSets = numSets || 1;
+		for (i = 0; i < numSets; i++) {
+			elHtml += (numSlides > 0 ? contents : '');
+		}
+		elHtml += (addNesting ? '</div>' : '') + '</section banno-carousel>';
+
+		var el = angular.element(elHtml);
 		compiler(el)(scope);
 		scope.$apply();
 
@@ -101,6 +102,21 @@ define(['testModule'], function(data) {
 			expect(el.scope().numSlides).toBe(count);
 			expect(el.scope().slides[0]).toEqual(jasmine.any(Object));
 			expect(el.scope().slides[1]).toEqual(jasmine.any(Object));
+		});
+
+	});
+
+	describe('multiple sets of slides', function() {
+
+		var count = 2;
+		var slidesRegexp = /^(<div banno-carousel-slides=""[^>]*>(<div[^>]*>slide \d+<\/div>)+<\/div>){3}$/;
+
+		beforeEach(function() {
+			el = createCarousel(count, scope, false, 3);
+		});
+
+		it('should contain all the slides', function() {
+			expect(el[0].innerHTML).toMatch(slidesRegexp);
 		});
 
 	});
