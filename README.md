@@ -70,7 +70,7 @@ Please add tests and maintain the existing styling when adding and updating the 
 
 ## Bugs & Feature Requests
 
-Have an issue or feature request? Please [open a new issue](https://github.com/Banno/angular-carousel/issues/new).
+Have an issue or feature request? Please [open a new issue](https://github.com/Banno/angular-simple-carousel/issues/new).
 
 ## License
 
