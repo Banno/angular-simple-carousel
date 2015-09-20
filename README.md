@@ -2,6 +2,8 @@
 
 A flexible slide carousel for AngularJS.
 
+Works in ES5 browsers (Firefox, Chrome, IE9+).
+
 ## Usage
 
 Encompass your HTML in a container with a `banno-carousel` attribute to activate this directive. Add a `banno-carousel-slides` attribute to the container(s) of slides.
@@ -26,7 +28,7 @@ Encompass your HTML in a container with a `banno-carousel` attribute to activate
 
 ## Installation
 
-Requires Angular & jQuery.
+Requires Angular.
 
 ```shell
 bower install --save angular-simple-carousel

@@ -36,7 +36,7 @@ angular.module('banno.carousel', []).directive('bannoCarousel', function() {
 			scope.showSlide = function(showIndex) {
 				scope.currentSlide = showIndex;
 				angular.forEach(slideContainers, function(container) {
-					angular.element(container).children().each(function(index, slide) {
+					angular.forEach(angular.element(container).children(), function(slide, index) {
 						showElementIf(slide, index === showIndex);
 					});
 				});
@@ -72,9 +72,7 @@ angular.module('banno.carousel', []).directive('bannoCarousel', function() {
 			};
 
 			// Find and remember the slide containers.
-			angular.element(element).find('[banno-carousel-slides]').each(function(i, el) {
-				slideContainers.push(el);
-			});
+			slideContainers = element[0].querySelectorAll('[banno-carousel-slides]');
 
 			// Get the slides from the first container.
 			if (slideContainers) {
