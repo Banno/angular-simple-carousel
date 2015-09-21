@@ -6,6 +6,12 @@ Works in ES5 browsers (Firefox, Chrome, IE9+).
 
 ## Usage
 
+First, you will need to include the `banno.carousel` module in your Angular app:
+
+```javascript
+angular.module('myModule', ['banno.carousel']);
+```
+
 Encompass your HTML in a container with a `banno-carousel` attribute to activate this directive. Add a `banno-carousel-slides` attribute to the container(s) of slides.
 
 ```html
