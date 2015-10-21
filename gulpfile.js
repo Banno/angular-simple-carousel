@@ -4,7 +4,7 @@ var del         = require('del');
 var gulp        = require('gulp');
 var header      = require('gulp-header');
 var jshint      = require('gulp-jshint');
-var karma       = require('karma').server;
+var Karma       = require('karma').Server;
 var pkg         = require('./package.json');
 var rename      = require('gulp-rename');
 var runSequence = require('run-sequence').use(gulp);
@@ -59,10 +59,10 @@ gulp.task('build', ['clean'], function() {
 });
 
 gulp.task('test', function(done) {
-	karma.start({
+	new Karma({
 		configFile: __dirname + '/test/karma.conf.js',
 		singleRun: true
-	}, function() { done(); });
+	}, function() { done(); }).start();
 });
 
 gulp.task('all', function(done) {
